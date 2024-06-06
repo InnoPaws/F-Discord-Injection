@@ -13,8 +13,6 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 - [X] Better UI
 
 # Coming Soon
-- [X] Start Up Editor - Removes Start UP Items without needing to go to regedit, startup folder and task scheduler
-- [X] Installer Support
 - [X] Copy Infected JS - I will Teach you how to deobfuscate it if its obfuscated
  
 # Analyze Report
