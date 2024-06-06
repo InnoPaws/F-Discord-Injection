@@ -14,7 +14,6 @@ namespace FuckIDiscordInjections
         [STAThread]
         static void Main()
         {
-            MessageBox.Show("Thanks for installing my program :)\nI really hope you enjoy this software and i hope it helps you out thank you!\nRemember Don't Install random stuff you see on the internet \nalways use tria.ge and virustotal before you run anything or download any software");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

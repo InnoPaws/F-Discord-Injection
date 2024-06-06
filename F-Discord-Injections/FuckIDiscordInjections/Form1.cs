@@ -10,145 +10,159 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
+using System.ServiceProcess;
+using System.Diagnostics.Eventing.Reader;
+
 
 namespace FuckIDiscordInjections
 {
     public partial class Form1 : Form
     {
+        private NotifyIcon trayIcon;
+        private Timer notificationTimer;
         public Form1()
         {
             InitializeComponent();
             LoadRegistryStartupItems();
             removeStartupToolStripMenuItem.Click += RemoveStartupToolStripMenuItem_Click;
             listBox1.MouseDown += ListBox1_MouseDown;
+            trayIcon = new NotifyIcon();
+            trayIcon.Text = "Thanks!";
+            trayIcon.Icon = SystemIcons.Information;
+
+            notificationTimer = new Timer();
+            notificationTimer.Interval = 5000; 
+            notificationTimer.Tick += NotificationTimer_Tick;
+
+            ShowNotification("Thanks For Using My Program", "Thanks for installing my program :)\nI really hope you enjoy this software and i hope it helps you out thank you!");
+        }
+        private void NotificationTimer_Tick(object sender, EventArgs e)
+        {
+            trayIcon.Visible = false;
+            notificationTimer.Stop();
+        }
+
+        private void ShowNotification(string title, string message)
+        {
+            trayIcon.BalloonTipTitle = title;
+            trayIcon.BalloonTipText = message;
+            trayIcon.Visible = true;
+            trayIcon.ShowBalloonTip(5000);
+            notificationTimer.Start(); 
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (trayIcon != null)
+            {
+                trayIcon.Dispose();
+            }
+            if (notificationTimer != null)
+            {
+                notificationTimer.Dispose();
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void youtubelabel_Click(object sender, EventArgs e)
         {
             Process.Start("https://www.youtube.com/@InnoPaws");
         }
-
-        private void KillBtn_Click(object sender, EventArgs e)
+        private void HomeBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Process[] discordProcesses = Process.GetProcessesByName("Discord");
-
-                foreach (Process process in discordProcesses)
-                {
-                    process.Kill();
-                    process.WaitForExit(); 
-                    MessageBox.Show($"Killed process {process.ProcessName} with ID {process.Id}", "Discord Killed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show("Sucesses! Please Open Discord.", "Discord Killed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                if (discordProcesses.Length == 0)
-                {
-                    MessageBox.Show("No Discord processes found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            guna2TabControl1.SelectedIndex = 0;
+        }
+        private void StartUPBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 1;
+        }
+        private void SettingsBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 2;
+        }
+        private void LogsBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 3;
         }
 
-        private void FindAndReapirBtn_Click(object sender, EventArgs e)
+        private void FixMyPCBtn_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            if (EnableTaskMgrBtn.Checked)
             {
-                openFileDialog.Filter = "JavaScript files (*.js)|*.js";
-                openFileDialog.Title = "Select a JavaScript File";
+                EnableTaskManager();
+            }
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (EnableControlBtn.Checked)
+            {
+                EnableControlPanel();
+            }
+
+            if (EnableCMDBtn.Checked)
+            {
+                EnableCommandPrompt();
+            }
+
+            if (EnableRegeditBrn.Checked)
+            {
+                EnableRegedit();
+            }
+
+            if (EnableResetMyPCBtn.Checked)
+            {
+                EnableWinRE();
+            }
+
+            if (EnableDefenderBtn.Checked)
+            {
+                EnableWindowsDefender();
+                StartWindowsDefenderServices();
+            }
+
+            if (HostRepairBtn.Checked)
+            {
+                string hostsFilePath = @"C:\Windows\System32\drivers\etc\hosts";
+                string defaultHostsContent = @"
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#    127.0.0.1       localhost
+#    ::1             localhost
+";
+
+                try
                 {
-                    string filePath = openFileDialog.FileName;
-                    string fileName = Path.GetFileName(filePath);
-
-                    if (fileName.Equals("index.js", StringComparison.OrdinalIgnoreCase))
-                    {
-                        DialogResult result = MessageBox.Show("Do you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (result == DialogResult.Yes)
-                        {
-                            try
-                            {
-                                File.WriteAllText(filePath, "module.exports = require(\"./core.asar\");");
-
-                                MessageBox.Show("Done! Malware Injection Removed. Please kill Discord and run it again to refresh Discord's index.js", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("An error occurred while processing the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                        else if (result == DialogResult.No)
-                        {
-                            MessageBox.Show("alright");
-                        }
-                        
-                    }
-                    else
-                    {
-                        MessageBox.Show("This is not a valid JavaScript file. The file name must be 'index.js'. - [DISCORD ONLY]", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                    File.WriteAllText(hostsFilePath, defaultHostsContent);
+                    listBox2.Items.Add("The hosts file has been repaired successfully.");
+                    MessageBox.Show("The hosts file has been repaired successfully.", "Host File Repaired!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    listBox2.Items.Add($"An error occurred while repairing the hosts file: {ex.Message}");
+                    MessageBox.Show($"An error occurred while repairing the hosts file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
-
-        private void CreateBATBtn_Click(object sender, EventArgs e)
-        {
-            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            int minLength = 5;
-            int maxLength = 10;
-            Random random = new Random();
-            int length = random.Next(minLength, maxLength + 1);
-            string randomName = GenerateRandomString(chars, length);
-            string batchFileName = $"{randomName}.bat";
-            string tempDirectory = Path.GetTempPath();
-            string batchFilePath = Path.Combine(tempDirectory, batchFileName);
-
-            string[] batchFileContent = {
-            "@echo off",
-            "setlocal enabledelayedexpansion",
-            "set \"folder_list=Discord DiscordCanary DiscordPTB DiscordDevelopment\"",
-            "timeout /t 5",
-            "taskkill /F /IM Discord.exe",
-            "taskkill /F /IM Update.exe",
-            "for %%F in (%folder_list%) do (",
-            "    set \"deneme_path=%LOCALAPPDATA%\\%%F\"",
-            "    if exist \"!deneme_path!\" (",
-            "        for /r \"!deneme_path!\" %%D in (discord_desktop_core) do (",
-            "            if exist \"%%D\\index.js\" (",
-            "                (echo module.exports = require(\"./core.asar\");) > \"%%D\\index.js\"",
-            "                echo Updated index.js in %%D",
-            "            )",
-            "        )",
-            "    )",
-            ")",
-            "start \"\" \"C:\\Users\\%USERNAME%\\AppData\\Local\\Discord\\Update.exe\" --processStart Discord.exe",
-            "pause"
-        };
-
-            try
-            {
-                File.WriteAllLines(batchFilePath, batchFileContent);
-
-                MessageBox.Show("Batch file created successfully: " + batchFilePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                string runKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
-                using (RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(runKey, true))
-                {
-                    startupKey.SetValue(batchFileName, batchFilePath);
-                }
-                MessageBox.Show("Batch file added to registry startup.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                MessageBox.Show("All operations completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        
 
         static string GenerateRandomString(string characters, int length)
         {
@@ -159,16 +173,6 @@ namespace FuckIDiscordInjections
                 result.Append(characters[random.Next(characters.Length)]);
             }
             return result.ToString();
-        }
-
-        private void HomeBtn_Click(object sender, EventArgs e)
-        {
-            guna2TabControl1.SelectedIndex = 0;
-        }
-
-        private void StartUPBtn_Click(object sender, EventArgs e)
-        {
-            guna2TabControl1.SelectedIndex = 1;
         }
 
         private void LoadRegistryStartupItems()
@@ -219,16 +223,16 @@ namespace FuckIDiscordInjections
         {
             if (listBox1.SelectedItem == null)
             {
+                listBox2.Items.Add("Please select an item to remove.");
                 MessageBox.Show("Please select an item to remove.");
                 return;
             }
 
             string selectedItem = listBox1.SelectedItem.ToString();
-            MessageBox.Show($"Selected item: {selectedItem}");
+            listBox2.Items.Add($"Selected item: {selectedItem}");
 
             if (string.IsNullOrEmpty(selectedItem)) return;
 
-            // Remove the selected item, regardless of the section it belongs to
             RemoveRegistryStartupItem(selectedItem);
         }
 
@@ -236,37 +240,356 @@ namespace FuckIDiscordInjections
         {
             string valueName = selectedItem.Split(':')[0].Trim();
 
-            // Search for the registry key containing the value to remove
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
             {
                 if (key != null && key.GetValue(valueName) != null)
                 {
                     key.DeleteValue(valueName);
+                    listBox2.Items.Add($"Removed startup item: {selectedItem}");
                     MessageBox.Show($"Removed startup item: {selectedItem}");
                     LoadRegistryStartupItems();
                     return;
                 }
             }
 
-            // If the key is not found in the local machine section, search in the current user section
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
             {
                 if (key != null && key.GetValue(valueName) != null)
                 {
                     key.DeleteValue(valueName);
+                    listBox2.Items.Add($"Removed startup item: {selectedItem}");
                     MessageBox.Show($"Removed startup item: {selectedItem}");
                     LoadRegistryStartupItems();
                     return;
                 }
             }
+            listBox2.Items.Add($"Cannot remove startup item: {selectedItem}. It doesn't exist in the registry.");
+            MessageBox.Show($"Cannot remove startup item: {selectedItem}. It doesn't exist in the registry.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        static void EnableTaskManager()
+        {
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
 
-            MessageBox.Show($"Cannot remove startup item: {selectedItem}. It doesn't exist in the registry.");
+                if (key == null)
+                {
+                    key = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System");
+                }
+
+                if (key.GetValue("DisableTaskMgr") != null)
+                {
+                    key.DeleteValue("DisableTaskMgr");
+                    MessageBox.Show("Task Manager enabled successfully.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Task Manager is already enabled.", "Already Enabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                key.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error enabling Task Manager: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        static void EnableControlPanel()
+        {
+            ModifyRegistryValue(@"Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", "NoControlPanel", false);
         }
 
-
-        private void Form1_Load(object sender, EventArgs e)
+        static void EnableCommandPrompt()
         {
+            ModifyRegistryValue(@"Software\Policies\Microsoft\Windows\System", "DisableCMD", false);
+        }
 
+        static void EnableRegedit()
+        {
+            ModifyRegistryValue(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", "DisableRegistryTools", false);
+        }
+
+        static void ModifyRegistryValue(string subKey, string valueName, bool disable)
+        {
+            try
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey, true);
+
+                if (key == null)
+                {
+                    key = Registry.CurrentUser.CreateSubKey(subKey);
+                }
+
+                if (disable)
+                {
+                    key.SetValue(valueName, 1, RegistryValueKind.DWord);
+                    MessageBox.Show($"{valueName} disabled successfully.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    if (key.GetValue(valueName) != null)
+                    {
+                        key.DeleteValue(valueName);
+                        MessageBox.Show($"{valueName} enabled successfully.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{valueName} is already enabled.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                key.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error modifying {valueName}: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        static void EnableWindowsDefender()
+        {
+            string[] subKeys = {
+                @"SOFTWARE\Policies\Microsoft\Windows Defender",
+                @"SOFTWARE\Microsoft\Windows Defender\Real-Time Protection",
+                @"SOFTWARE\Microsoft\Windows Defender\Spynet"
+            };
+
+            try
+            {
+                // Enable core Defender settings
+                EnableRegistrySetting(subKeys[0], "DisableAntiSpyware", false);
+                EnableRegistrySetting(subKeys[0], "DisableRealtimeMonitoring", false);
+
+                // Enable Real-Time Protection settings
+                EnableRegistrySetting(subKeys[1], "DisableBehaviorMonitoring", false);
+                EnableRegistrySetting(subKeys[1], "DisableOnAccessProtection", false);
+                EnableRegistrySetting(subKeys[1], "DisableScanOnRealtimeEnable", false);
+
+                // Enable Cloud Protection
+                EnableRegistrySetting(subKeys[2], "SpynetReporting", true, 2); // Set to 2 for "Advanced MAPS"
+                EnableRegistrySetting(subKeys[2], "SubmitSamplesConsent", true, 2); // Set to 2 for "Always Prompt"
+
+                MessageBox.Show("Windows Defender settings enabled successfully.", "Already Enabled", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error enabling Windows Defender settings: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        static void EnableRegistrySetting(string subKey, string valueName, bool isDword, object value = null)
+        {
+            try
+            {
+                RegistryKey key = Registry.LocalMachine.OpenSubKey(subKey, true) ?? Registry.LocalMachine.CreateSubKey(subKey);
+
+                if (isDword)
+                {
+                    key.SetValue(valueName, value ?? 0, RegistryValueKind.DWord);
+                }
+                else
+                {
+                    if (key.GetValue(valueName) != null)
+                    {
+                        key.DeleteValue(valueName);
+                    }
+                }
+
+                key.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error modifying {valueName} in {subKey}: {ex.Message}", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        static void StartWindowsDefenderServices()
+        {
+            string[] services = { "WinDefend", "WdNisSvc" };
+
+            foreach (string serviceName in services)
+            {
+                try
+                {
+                    ServiceController sc = new ServiceController(serviceName);
+
+                    if (sc.Status == ServiceControllerStatus.Stopped)
+                    {
+                        sc.Start();
+                        sc.WaitForStatus(ServiceControllerStatus.Running);
+                        MessageBox.Show($"{serviceName} service started successfully.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{serviceName} service is already running.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error starting {serviceName} service: " + ex.Message, "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        static void EnableWinRE()
+        {
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.FileName = "reagentc";
+            processInfo.Arguments = "/enable";
+            processInfo.Verb = "runas"; // This makes sure the command runs with elevated privileges
+            processInfo.UseShellExecute = true;
+
+            try
+            {
+                Process process = Process.Start(processInfo);
+                process.WaitForExit();
+                if (process.ExitCode == 0)
+                {
+                    MessageBox.Show("Successfully enabled WinRE.", "Sucess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to enable WinRE. Exit code: {process.ExitCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void FindAndReapirBtn_Click_1(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "JavaScript files (*.js)|*.js";
+                openFileDialog.Title = "Select a JavaScript File";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    string fileName = Path.GetFileName(filePath);
+
+                    if (fileName.Equals("index.js", StringComparison.OrdinalIgnoreCase))
+                    {
+                        DialogResult result = MessageBox.Show("Do you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                File.WriteAllText(filePath, "module.exports = require(\"./core.asar\");");
+                                listBox2.Items.Add("Done! Malware Injection Removed. Please kill Discord and run it again to refresh Discord's index.js");
+                                MessageBox.Show("Done! Malware Injection Removed. Please kill Discord and run it again to refresh Discord's index.js", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            catch (Exception ex)
+                            {
+                                listBox2.Items.Add("An error occurred while processing the file: " + ex.Message);
+                                MessageBox.Show("An error occurred while processing the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else if (result == DialogResult.No)
+                        {
+                            listBox2.Items.Add("Alright");
+                            MessageBox.Show("alright");
+                        }
+
+                    }
+                    else
+                    {
+                        listBox2.Items.Add("This is not a valid JavaScript file. The file name must be 'index.js'. - [DISCORD ONLY]");
+                        MessageBox.Show("This is not a valid JavaScript file. The file name must be 'index.js'. - [DISCORD ONLY]", "Invalid File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+        }
+
+        private void CreateBATBtn_Click_1(object sender, EventArgs e)
+        {
+            string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int minLength = 5;
+            int maxLength = 10;
+            Random random = new Random();
+            int length = random.Next(minLength, maxLength + 1);
+            string randomName = GenerateRandomString(chars, length);
+            string batchFileName = $"{randomName}.bat";
+            string tempDirectory = Path.GetTempPath();
+            string batchFilePath = Path.Combine(tempDirectory, batchFileName);
+
+            string[] batchFileContent = {
+            "@echo off",
+            "setlocal enabledelayedexpansion",
+            "set \"folder_list=Discord DiscordCanary DiscordPTB DiscordDevelopment\"",
+            "timeout /t 5",
+            "taskkill /F /IM Discord.exe",
+            "taskkill /F /IM Update.exe",
+            "for %%F in (%folder_list%) do (",
+            "    set \"deneme_path=%LOCALAPPDATA%\\%%F\"",
+            "    if exist \"!deneme_path!\" (",
+            "        for /r \"!deneme_path!\" %%D in (discord_desktop_core) do (",
+            "            if exist \"%%D\\index.js\" (",
+            "                (echo module.exports = require(\"./core.asar\");) > \"%%D\\index.js\"",
+            "                echo Updated index.js in %%D",
+            "            )",
+            "        )",
+            "    )",
+            ")",
+            "start \"\" \"C:\\Users\\%USERNAME%\\AppData\\Local\\Discord\\Update.exe\" --processStart Discord.exe",
+            "pause"
+        };
+
+            try
+            {
+                File.WriteAllLines(batchFilePath, batchFileContent);
+                listBox2.Items.Add($"Batch file created sucessfully: {batchFilePath}");
+                MessageBox.Show("Batch file created successfully: " + batchFilePath, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                string runKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+                using (RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(runKey, true))
+                {
+                    startupKey.SetValue(batchFileName, batchFilePath);
+                }
+                listBox2.Items.Add("Batch file added to registry startup.");
+                MessageBox.Show("Batch file added to registry startup.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                listBox2.Items.Add("All operations completed sucessfully.");
+                MessageBox.Show("All operations completed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"An Error Occurred: {ex.Message}");
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void KillBtn_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                Process[] discordProcesses = Process.GetProcessesByName("Discord");
+
+                foreach (Process process in discordProcesses)
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                    listBox2.Items.Add($"Killed process {process.ProcessName} with ID {process.Id}");
+                    listBox2.Items.Add("Success! Please Open Discord.");
+                    MessageBox.Show($"Killed process {process.ProcessName} with ID {process.Id}", "Discord Killed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sucesses! Please Open Discord.", "Discord Killed!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                if (discordProcesses.Length == 0)
+                {
+                    listBox2.Items.Add("No Discord processes found.");
+                    MessageBox.Show("No Discord processes found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                listBox2.Items.Add($"An error occurred: {ex.Message}");
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void youtubelabel_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("https://www.youtube.com/@InnoPaws");
         }
     }
-}
+ }
