@@ -25,4 +25,5 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 If you like to donate to help me build more projects like this you can donate to my crypto address wallets thank you :)
 
 BTC: bc1qckf040g9trguj2fgtppl05dwzm9dnsnfwhadqr
+
 XMR: 493rN8NXskrX8Y7yJ2qqCS9StihckGd1b7gPFigP4WqmQ3yJKfhaQ66FSCjyDKs4gZVXYNmrsWRFS2bt2ua2yiDPG5jzL8W
