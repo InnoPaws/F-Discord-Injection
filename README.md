@@ -16,8 +16,14 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 - [X] Copy Infected JS - I will Teach you how to deobfuscate it if its obfuscated
  
 # Analyze Report
+
+## EXE 
 - [X] Tria.ge: https://tria.ge/240604-xkts1agg95
 - [X] Virustotal: https://www.virustotal.com/gui/file/1fb05c1cbad35af50e4e087b348d2ecadca9447d916cd6c4b177f8ad46a37256?nocache=1
+
+# Installer EXE
+- [X] Tria.ge: https://tria.ge/240606-ezc5pagf3y - I Don't know why it gets detected as agent tesla it might be the installer
+- [X] Virustotal: https://www.virustotal.com/gui/file-analysis/ODcxNjMwOTVlZGYxM2U5ODFlNTgzYmVlNzA1NWRkMDc6MTcxNzY1MTI0OQ==
 
 # Donate
 If you like to donate to help me build more projects like this you can donate to my crypto address wallets thank you :)
