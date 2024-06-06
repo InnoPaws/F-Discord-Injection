@@ -5,7 +5,7 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 - [X] Find / Remove Injection: shows user file dialog to find only index.js and replace it with discord original index.js code
 - [X] Create Batch: Creates a batch file in %temp% and then adds it to start up also creating a code were it replaces the code everything the pc start up with discord normal js code for index.js but also protecting you from any injections
 - [X] Kill Discord: Just Kills discord lol
-- [X] Download > [F-Discord-Injections](https://github.com/InnoPaws/F-Discord-Injection/releases/download/Release/FuckDiscordInjections.zip)
+- [X] Download > [F-Discord-Injections](https://github.com/InnoPaws/F-Discord-Injection/releases/tag/2.0)
 
 # New Features
 - [X] Installer Support
