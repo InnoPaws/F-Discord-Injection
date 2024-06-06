@@ -11,6 +11,17 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 - [X] Installer Support
 - [X] Startup - REGEDIT SUPPORTED ONLY adding start up folder later on 
 - [X] Better UI
+- [X] More Features, New Tab and More Options on the new tab 
+- [X] Event Log
+
+## What More Features Were Added?
+- Enable Taskmgr - Enable TaskMgr
+- Enable Regedit - Enables Regedit
+- Enable CMD -  Enables Command Prompt
+- Enable Control Panel -  Enables Control Panel
+- Enable ResetMyPC - Enables Reset My PC
+- Enable Defender - Enables Windows Defender again
+- Host Repair - Repairs Your host file just in case malware has sites blocked on it
 
 # Coming Soon
 - [X] Copy Infected JS - I will Teach you how to deobfuscate it if its obfuscated
