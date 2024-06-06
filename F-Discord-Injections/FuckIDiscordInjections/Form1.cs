@@ -18,6 +18,9 @@ namespace FuckIDiscordInjections
         public Form1()
         {
             InitializeComponent();
+            LoadRegistryStartupItems();
+            removeStartupToolStripMenuItem.Click += RemoveStartupToolStripMenuItem_Click;
+            listBox1.MouseDown += ListBox1_MouseDown;
         }
 
         private void youtubelabel_Click(object sender, EventArgs e)
@@ -156,6 +159,114 @@ namespace FuckIDiscordInjections
                 result.Append(characters[random.Next(characters.Length)]);
             }
             return result.ToString();
+        }
+
+        private void HomeBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 0;
+        }
+
+        private void StartUPBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 1;
+        }
+
+        private void LoadRegistryStartupItems()
+        {
+            listBox1.Items.Clear();
+            listBox1.Items.Add("Registry (Current User):");
+            List<string> registryCurrentUserItems = GetRegistryStartupItems(Registry.CurrentUser, @"Software\Microsoft\Windows\CurrentVersion\Run");
+            listBox1.Items.AddRange(registryCurrentUserItems.ToArray());
+            listBox1.Items.Add("");
+
+            listBox1.Items.Add("Registry (Local Machine):");
+            List<string> registryLocalMachineItems = GetRegistryStartupItems(Registry.LocalMachine, @"Software\Microsoft\Windows\CurrentVersion\Run");
+            listBox1.Items.AddRange(registryLocalMachineItems.ToArray());
+            listBox1.Items.Add("");
+        }
+
+        private List<string> GetRegistryStartupItems(RegistryKey rootKey, string subKeyPath)
+        {
+            List<string> items = new List<string>();
+            using (RegistryKey key = rootKey.OpenSubKey(subKeyPath))
+            {
+                if (key != null)
+                {
+                    foreach (string valueName in key.GetValueNames())
+                    {
+                        string item = $"{valueName}: {key.GetValue(valueName)}";
+                        items.Add(item);
+                    }
+                }
+            }
+            return items;
+        }
+
+        private void ListBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int index = listBox1.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                {
+                    listBox1.SelectedIndex = index;
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void RemoveStartupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an item to remove.");
+                return;
+            }
+
+            string selectedItem = listBox1.SelectedItem.ToString();
+            MessageBox.Show($"Selected item: {selectedItem}");
+
+            if (string.IsNullOrEmpty(selectedItem)) return;
+
+            // Remove the selected item, regardless of the section it belongs to
+            RemoveRegistryStartupItem(selectedItem);
+        }
+
+        private void RemoveRegistryStartupItem(string selectedItem)
+        {
+            string valueName = selectedItem.Split(':')[0].Trim();
+
+            // Search for the registry key containing the value to remove
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+            {
+                if (key != null && key.GetValue(valueName) != null)
+                {
+                    key.DeleteValue(valueName);
+                    MessageBox.Show($"Removed startup item: {selectedItem}");
+                    LoadRegistryStartupItems();
+                    return;
+                }
+            }
+
+            // If the key is not found in the local machine section, search in the current user section
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+            {
+                if (key != null && key.GetValue(valueName) != null)
+                {
+                    key.DeleteValue(valueName);
+                    MessageBox.Show($"Removed startup item: {selectedItem}");
+                    LoadRegistryStartupItems();
+                    return;
+                }
+            }
+
+            MessageBox.Show($"Cannot remove startup item: {selectedItem}. It doesn't exist in the registry.");
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
