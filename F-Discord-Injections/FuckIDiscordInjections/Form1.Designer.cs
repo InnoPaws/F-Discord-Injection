@@ -32,15 +32,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.Base64DecodeBtn = new System.Windows.Forms.Button();
+            this.Base64EncodeBtn = new System.Windows.Forms.Button();
+            this.Base64Text = new System.Windows.Forms.TextBox();
+            this.base64LabelLogo = new System.Windows.Forms.Label();
+            this.RemoveSuperHiddenBtn = new System.Windows.Forms.Button();
             this.youtubelabel = new System.Windows.Forms.Label();
             this.KillBtn = new System.Windows.Forms.Button();
             this.CreateBATBtn = new System.Windows.Forms.Button();
             this.FindAndReapirBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.MainLogoLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.TempCleanerBtn = new Guna.UI2.WinForms.Guna2CheckBox();
             this.EnableDefenderBtn = new Guna.UI2.WinForms.Guna2CheckBox();
             this.FixMyPCBtn = new Guna.UI2.WinForms.Guna2Button();
             this.EnableResetMyPCBtn = new Guna.UI2.WinForms.Guna2CheckBox();
@@ -51,6 +56,12 @@
             this.HostRepairBtn = new Guna.UI2.WinForms.Guna2CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.RefreshCMDBtn = new System.Windows.Forms.Button();
+            this.SendCmdBtn = new System.Windows.Forms.Button();
+            this.SendCmdTextBox = new System.Windows.Forms.TextBox();
+            this.consoleRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.Verison = new System.Windows.Forms.Label();
             this.Form1ContainerBox = new Guna.UI2.WinForms.Guna2ContainerControl();
             this.minizeBtn = new Guna.UI2.WinForms.Guna2ControlBox();
             this.ExitBtn = new Guna.UI2.WinForms.Guna2ControlBox();
@@ -62,11 +73,13 @@
             this.Form1Elipse = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.SettingsBtn = new Guna.UI2.WinForms.Guna2ImageButton();
             this.LogsBtn = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.HackerBtn = new Guna.UI2.WinForms.Guna2ImageButton();
             this.guna2TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.Form1ContainerBox.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,6 +91,7 @@
             this.guna2TabControl1.Controls.Add(this.tabPage2);
             this.guna2TabControl1.Controls.Add(this.tabPage3);
             this.guna2TabControl1.Controls.Add(this.tabPage4);
+            this.guna2TabControl1.Controls.Add(this.tabPage5);
             this.guna2TabControl1.ItemSize = new System.Drawing.Size(180, 40);
             this.guna2TabControl1.Location = new System.Drawing.Point(45, 26);
             this.guna2TabControl1.Name = "guna2TabControl1";
@@ -106,27 +120,69 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
-            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.Base64DecodeBtn);
+            this.tabPage1.Controls.Add(this.Base64EncodeBtn);
+            this.tabPage1.Controls.Add(this.Base64Text);
+            this.tabPage1.Controls.Add(this.base64LabelLogo);
+            this.tabPage1.Controls.Add(this.RemoveSuperHiddenBtn);
             this.tabPage1.Controls.Add(this.youtubelabel);
             this.tabPage1.Controls.Add(this.KillBtn);
             this.tabPage1.Controls.Add(this.CreateBATBtn);
             this.tabPage1.Controls.Add(this.FindAndReapirBtn);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(5, 4);
+            this.tabPage1.Controls.Add(this.MainLogoLabel);
+            this.tabPage1.Location = new System.Drawing.Point(184, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(446, 326);
+            this.tabPage1.Size = new System.Drawing.Size(267, 326);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             // 
-            // label2
+            // Base64DecodeBtn
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 311);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Version: 2.0";
+            this.Base64DecodeBtn.Location = new System.Drawing.Point(227, 224);
+            this.Base64DecodeBtn.Name = "Base64DecodeBtn";
+            this.Base64DecodeBtn.Size = new System.Drawing.Size(149, 23);
+            this.Base64DecodeBtn.TabIndex = 15;
+            this.Base64DecodeBtn.Text = "Decode";
+            this.Base64DecodeBtn.UseVisualStyleBackColor = true;
+            this.Base64DecodeBtn.Click += new System.EventHandler(this.Base64DecodeBtn_Click);
+            // 
+            // Base64EncodeBtn
+            // 
+            this.Base64EncodeBtn.Location = new System.Drawing.Point(72, 224);
+            this.Base64EncodeBtn.Name = "Base64EncodeBtn";
+            this.Base64EncodeBtn.Size = new System.Drawing.Size(149, 23);
+            this.Base64EncodeBtn.TabIndex = 14;
+            this.Base64EncodeBtn.Text = "Encode";
+            this.Base64EncodeBtn.UseVisualStyleBackColor = true;
+            this.Base64EncodeBtn.Click += new System.EventHandler(this.Base64EncodeBtn_Click);
+            // 
+            // Base64Text
+            // 
+            this.Base64Text.Location = new System.Drawing.Point(72, 198);
+            this.Base64Text.Name = "Base64Text";
+            this.Base64Text.Size = new System.Drawing.Size(304, 20);
+            this.Base64Text.TabIndex = 13;
+            // 
+            // base64LabelLogo
+            // 
+            this.base64LabelLogo.AutoSize = true;
+            this.base64LabelLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.base64LabelLogo.Location = new System.Drawing.Point(71, 152);
+            this.base64LabelLogo.Name = "base64LabelLogo";
+            this.base64LabelLogo.Size = new System.Drawing.Size(309, 29);
+            this.base64LabelLogo.TabIndex = 12;
+            this.base64LabelLogo.Text = "base64 - Decode/Encode";
+            // 
+            // RemoveSuperHiddenBtn
+            // 
+            this.RemoveSuperHiddenBtn.Location = new System.Drawing.Point(227, 105);
+            this.RemoveSuperHiddenBtn.Name = "RemoveSuperHiddenBtn";
+            this.RemoveSuperHiddenBtn.Size = new System.Drawing.Size(149, 23);
+            this.RemoveSuperHiddenBtn.TabIndex = 11;
+            this.RemoveSuperHiddenBtn.Text = "Remove SuperHidden";
+            this.RemoveSuperHiddenBtn.UseVisualStyleBackColor = true;
+            this.RemoveSuperHiddenBtn.Click += new System.EventHandler(this.RemoveSuperHiddenBtn_Click);
             // 
             // youtubelabel
             // 
@@ -140,7 +196,7 @@
             // 
             // KillBtn
             // 
-            this.KillBtn.Location = new System.Drawing.Point(146, 83);
+            this.KillBtn.Location = new System.Drawing.Point(72, 105);
             this.KillBtn.Name = "KillBtn";
             this.KillBtn.Size = new System.Drawing.Size(149, 23);
             this.KillBtn.TabIndex = 8;
@@ -150,7 +206,7 @@
             // 
             // CreateBATBtn
             // 
-            this.CreateBATBtn.Location = new System.Drawing.Point(227, 55);
+            this.CreateBATBtn.Location = new System.Drawing.Point(227, 77);
             this.CreateBATBtn.Name = "CreateBATBtn";
             this.CreateBATBtn.Size = new System.Drawing.Size(149, 23);
             this.CreateBATBtn.TabIndex = 7;
@@ -160,7 +216,7 @@
             // 
             // FindAndReapirBtn
             // 
-            this.FindAndReapirBtn.Location = new System.Drawing.Point(72, 55);
+            this.FindAndReapirBtn.Location = new System.Drawing.Point(72, 77);
             this.FindAndReapirBtn.Name = "FindAndReapirBtn";
             this.FindAndReapirBtn.Size = new System.Drawing.Size(149, 23);
             this.FindAndReapirBtn.TabIndex = 6;
@@ -168,15 +224,15 @@
             this.FindAndReapirBtn.UseVisualStyleBackColor = true;
             this.FindAndReapirBtn.Click += new System.EventHandler(this.FindAndReapirBtn_Click_1);
             // 
-            // label1
+            // MainLogoLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(71, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 29);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Fuck Discord Injections";
+            this.MainLogoLabel.AutoSize = true;
+            this.MainLogoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainLogoLabel.Location = new System.Drawing.Point(71, 23);
+            this.MainLogoLabel.Name = "MainLogoLabel";
+            this.MainLogoLabel.Size = new System.Drawing.Size(285, 29);
+            this.MainLogoLabel.TabIndex = 5;
+            this.MainLogoLabel.Text = "Fuck Discord Injections";
             // 
             // tabPage2
             // 
@@ -201,6 +257,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.White;
+            this.tabPage3.Controls.Add(this.TempCleanerBtn);
             this.tabPage3.Controls.Add(this.EnableDefenderBtn);
             this.tabPage3.Controls.Add(this.FixMyPCBtn);
             this.tabPage3.Controls.Add(this.EnableResetMyPCBtn);
@@ -215,6 +272,23 @@
             this.tabPage3.Size = new System.Drawing.Size(446, 326);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "tabPage3";
+            // 
+            // TempCleanerBtn
+            // 
+            this.TempCleanerBtn.AutoSize = true;
+            this.TempCleanerBtn.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.TempCleanerBtn.CheckedState.BorderRadius = 0;
+            this.TempCleanerBtn.CheckedState.BorderThickness = 0;
+            this.TempCleanerBtn.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.TempCleanerBtn.Location = new System.Drawing.Point(204, 34);
+            this.TempCleanerBtn.Name = "TempCleanerBtn";
+            this.TempCleanerBtn.Size = new System.Drawing.Size(108, 17);
+            this.TempCleanerBtn.TabIndex = 22;
+            this.TempCleanerBtn.Text = "%Temp% Cleaner";
+            this.TempCleanerBtn.UncheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.TempCleanerBtn.UncheckedState.BorderRadius = 0;
+            this.TempCleanerBtn.UncheckedState.BorderThickness = 0;
+            this.TempCleanerBtn.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
             // 
             // EnableDefenderBtn
             // 
@@ -372,10 +446,74 @@
             this.listBox2.Size = new System.Drawing.Size(440, 320);
             this.listBox2.TabIndex = 0;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.BackColor = System.Drawing.Color.White;
+            this.tabPage5.Controls.Add(this.RefreshCMDBtn);
+            this.tabPage5.Controls.Add(this.SendCmdBtn);
+            this.tabPage5.Controls.Add(this.SendCmdTextBox);
+            this.tabPage5.Controls.Add(this.consoleRichTextBox);
+            this.tabPage5.Location = new System.Drawing.Point(5, 4);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(446, 326);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "tabPage5";
+            // 
+            // RefreshCMDBtn
+            // 
+            this.RefreshCMDBtn.Location = new System.Drawing.Point(218, 300);
+            this.RefreshCMDBtn.Name = "RefreshCMDBtn";
+            this.RefreshCMDBtn.Size = new System.Drawing.Size(222, 22);
+            this.RefreshCMDBtn.TabIndex = 3;
+            this.RefreshCMDBtn.Text = "Refresh CMD";
+            this.RefreshCMDBtn.UseVisualStyleBackColor = true;
+            this.RefreshCMDBtn.Click += new System.EventHandler(this.RefreshCMDBtn_Click);
+            // 
+            // SendCmdBtn
+            // 
+            this.SendCmdBtn.Location = new System.Drawing.Point(6, 300);
+            this.SendCmdBtn.Name = "SendCmdBtn";
+            this.SendCmdBtn.Size = new System.Drawing.Size(213, 22);
+            this.SendCmdBtn.TabIndex = 2;
+            this.SendCmdBtn.Text = "Send Command ";
+            this.SendCmdBtn.UseVisualStyleBackColor = true;
+            this.SendCmdBtn.Click += new System.EventHandler(this.SendCmdBtn_Click);
+            // 
+            // SendCmdTextBox
+            // 
+            this.SendCmdTextBox.Location = new System.Drawing.Point(3, 279);
+            this.SendCmdTextBox.Name = "SendCmdTextBox";
+            this.SendCmdTextBox.Size = new System.Drawing.Size(437, 20);
+            this.SendCmdTextBox.TabIndex = 1;
+            // 
+            // consoleRichTextBox
+            // 
+            this.consoleRichTextBox.BackColor = System.Drawing.Color.Black;
+            this.consoleRichTextBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.consoleRichTextBox.ForeColor = System.Drawing.Color.White;
+            this.consoleRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.consoleRichTextBox.Name = "consoleRichTextBox";
+            this.consoleRichTextBox.ReadOnly = true;
+            this.consoleRichTextBox.Size = new System.Drawing.Size(440, 276);
+            this.consoleRichTextBox.TabIndex = 0;
+            this.consoleRichTextBox.Text = "";
+            // 
+            // Verison
+            // 
+            this.Verison.AutoSize = true;
+            this.Verison.Font = new System.Drawing.Font("MV Boli", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Verison.Location = new System.Drawing.Point(2, 2);
+            this.Verison.Name = "Verison";
+            this.Verison.Size = new System.Drawing.Size(117, 21);
+            this.Verison.TabIndex = 10;
+            this.Verison.Text = "Version: 3.0";
+            // 
             // Form1ContainerBox
             // 
             this.Form1ContainerBox.Controls.Add(this.minizeBtn);
             this.Form1ContainerBox.Controls.Add(this.ExitBtn);
+            this.Form1ContainerBox.Controls.Add(this.Verison);
             this.Form1ContainerBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.Form1ContainerBox.Location = new System.Drawing.Point(0, 0);
             this.Form1ContainerBox.Name = "Form1ContainerBox";
@@ -488,12 +626,28 @@
             this.LogsBtn.TabIndex = 13;
             this.LogsBtn.Click += new System.EventHandler(this.LogsBtn_Click);
             // 
+            // HackerBtn
+            // 
+            this.HackerBtn.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
+            this.HackerBtn.HoverState.ImageSize = new System.Drawing.Size(32, 32);
+            this.HackerBtn.Image = ((System.Drawing.Image)(resources.GetObject("HackerBtn.Image")));
+            this.HackerBtn.ImageOffset = new System.Drawing.Point(0, 0);
+            this.HackerBtn.ImageRotate = 0F;
+            this.HackerBtn.ImageSize = new System.Drawing.Size(32, 32);
+            this.HackerBtn.Location = new System.Drawing.Point(0, 302);
+            this.HackerBtn.Name = "HackerBtn";
+            this.HackerBtn.PressedState.ImageSize = new System.Drawing.Size(32, 32);
+            this.HackerBtn.Size = new System.Drawing.Size(49, 52);
+            this.HackerBtn.TabIndex = 14;
+            this.HackerBtn.Click += new System.EventHandler(this.HackerBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(500, 357);
+            this.Controls.Add(this.HackerBtn);
             this.Controls.Add(this.LogsBtn);
             this.Controls.Add(this.SettingsBtn);
             this.Controls.Add(this.StartUPBtn);
@@ -503,6 +657,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "lol";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.guna2TabControl1.ResumeLayout(false);
@@ -512,7 +667,10 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.Form1ContainerBox.ResumeLayout(false);
+            this.Form1ContainerBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -527,7 +685,7 @@
         private System.Windows.Forms.Button KillBtn;
         private System.Windows.Forms.Button CreateBATBtn;
         private System.Windows.Forms.Button FindAndReapirBtn;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label MainLogoLabel;
         private System.Windows.Forms.ListBox listBox1;
         private Guna.UI2.WinForms.Guna2ContainerControl Form1ContainerBox;
         private Guna.UI2.WinForms.Guna2ControlBox minizeBtn;
@@ -538,7 +696,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem removeStartupToolStripMenuItem;
         private Guna.UI2.WinForms.Guna2Elipse Form1Elipse;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Verison;
         private System.Windows.Forms.TabPage tabPage3;
         private Guna.UI2.WinForms.Guna2ImageButton SettingsBtn;
         private Guna.UI2.WinForms.Guna2CheckBox HostRepairBtn;
@@ -552,6 +710,18 @@
         private Guna.UI2.WinForms.Guna2ImageButton LogsBtn;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.ListBox listBox2;
+        private Guna.UI2.WinForms.Guna2CheckBox TempCleanerBtn;
+        private System.Windows.Forms.Button RemoveSuperHiddenBtn;
+        private System.Windows.Forms.Label base64LabelLogo;
+        private System.Windows.Forms.Button Base64DecodeBtn;
+        private System.Windows.Forms.Button Base64EncodeBtn;
+        private System.Windows.Forms.TextBox Base64Text;
+        private Guna.UI2.WinForms.Guna2ImageButton HackerBtn;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Button SendCmdBtn;
+        private System.Windows.Forms.TextBox SendCmdTextBox;
+        private System.Windows.Forms.RichTextBox consoleRichTextBox;
+        private System.Windows.Forms.Button RefreshCMDBtn;
     }
 }
 

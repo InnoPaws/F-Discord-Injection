@@ -31,11 +31,17 @@ namespace FuckIDiscordInjections
             trayIcon.Icon = SystemIcons.Information;
 
             notificationTimer = new Timer();
-            notificationTimer.Interval = 5000; 
+            notificationTimer.Interval = 5000;
             notificationTimer.Tick += NotificationTimer_Tick;
 
             ShowNotification("Thanks For Using My Program", "Thanks for installing my program :)\nI really hope you enjoy this software and i hope it helps you out thank you!");
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            RunCommandPrompt();
+        }
+
         private void NotificationTimer_Tick(object sender, EventArgs e)
         {
             trayIcon.Visible = false;
@@ -48,7 +54,7 @@ namespace FuckIDiscordInjections
             trayIcon.BalloonTipText = message;
             trayIcon.Visible = true;
             trayIcon.ShowBalloonTip(5000);
-            notificationTimer.Start(); 
+            notificationTimer.Start();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -63,15 +69,11 @@ namespace FuckIDiscordInjections
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void youtubelabel_Click(object sender, EventArgs e)
         {
             Process.Start("https://www.youtube.com/@InnoPaws");
         }
+
         private void HomeBtn_Click(object sender, EventArgs e)
         {
             guna2TabControl1.SelectedIndex = 0;
@@ -88,7 +90,37 @@ namespace FuckIDiscordInjections
         {
             guna2TabControl1.SelectedIndex = 3;
         }
+        private void HackerBtn_Click(object sender, EventArgs e)
+        {
+            guna2TabControl1.SelectedIndex = 4;
+        }
+        private void SendCmdBtn_Click(object sender, EventArgs e)
+        {
+            string command = SendCmdTextBox.Text;
+            SendCommand(command);
+            SendCmdTextBox.Text = "";
+        }
+        private void RefreshCMDBtn_Click(object sender, EventArgs e)
+        {
+            consoleRichTextBox.Clear();
+            CloseCommandPrompt();
+            RunCommandPrompt();
+        }
 
+        private void RemoveSuperHiddenBtn_Click(object sender, EventArgs e)
+        {
+            Form2 newForm = new Form2();
+            newForm.Show();
+        }
+        private void Base64EncodeBtn_Click(object sender, EventArgs e)
+        {
+            EncodeBase64();
+        }
+
+        private void Base64DecodeBtn_Click(object sender, EventArgs e)
+        {
+            DecodeBase64();
+        }
         private void FixMyPCBtn_Click(object sender, EventArgs e)
         {
             if (EnableTaskMgrBtn.Checked)
@@ -161,8 +193,12 @@ namespace FuckIDiscordInjections
                     MessageBox.Show($"An error occurred while repairing the hosts file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            if (TempCleanerBtn.Checked)
+            {
+                CleanTemp(listBox2);
+            }
         }
-        
+
 
         static string GenerateRandomString(string characters, int length)
         {
@@ -434,7 +470,7 @@ namespace FuckIDiscordInjections
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.FileName = "reagentc";
             processInfo.Arguments = "/enable";
-            processInfo.Verb = "runas"; // This makes sure the command runs with elevated privileges
+            processInfo.Verb = "runas"; 
             processInfo.UseShellExecute = true;
 
             try
@@ -591,5 +627,154 @@ namespace FuckIDiscordInjections
         {
             Process.Start("https://www.youtube.com/@InnoPaws");
         }
+
+        static void CleanTemp(ListBox listBox2)
+        {
+            string tempFolderPath = Path.GetTempPath();
+
+            string debugMessage = "Temp folder path: " + tempFolderPath;
+            listBox2.Items.Add(debugMessage);
+
+            try
+            {
+                string[] files = Directory.GetFiles(tempFolderPath);
+
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        File.Delete(file);
+                        string successFileMessage = "Deleted file: " + file;
+                        listBox2.Items.Add(successFileMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        string errorFileMessage = "Failed to delete file: " + file + "\nException: " + ex.Message;
+                        listBox2.Items.Add(errorFileMessage);
+                    }
+                }
+
+                string[] directories = Directory.GetDirectories(tempFolderPath);
+
+                foreach (string directory in directories)
+                {
+                    try
+                    {
+                        Directory.Delete(directory, true);
+                        string successDirectoryMessage = "Deleted directory: " + directory;
+                        listBox2.Items.Add(successDirectoryMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        string errorDirectoryMessage = "Failed to delete directory: " + directory + "\nException: " + ex.Message;
+                        listBox2.Items.Add(errorDirectoryMessage);
+                    }
+                }
+
+                string successMessage = "Temp folder cleaned successfully.";
+                MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                listBox2.Items.Add(successMessage);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "Failed to clean temp folder.\nException: " + ex.Message;
+                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                listBox2.Items.Add(errorMessage);
+            }
+        }
+
+        private void EncodeBase64()
+        {
+            try
+            {
+                string input = Base64Text.Text;
+                byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+                string encodedText = Convert.ToBase64String(inputBytes);
+                Base64Text.Text = encodedText;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error encoding text: " + ex.Message);
+            }
+        }
+
+        private void DecodeBase64()
+        {
+            try
+            {
+                string encodedText = Base64Text.Text;
+                byte[] outputBytes = Convert.FromBase64String(encodedText);
+                string decodedText = System.Text.Encoding.UTF8.GetString(outputBytes);
+                Base64Text.Text = decodedText;
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("The input is not a valid Base64 encoded string.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error decoding text: " + ex.Message);
+            }
+        }
+
+        private Process process;
+        private void RunCommandPrompt()
+        {
+            process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.ErrorDataReceived += new DataReceivedEventHandler(ErrorHandler);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+        }
+
+        private void OutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                AppendText(e.Data + Environment.NewLine);
+            }
+        }
+
+        private void ErrorHandler(object sender, DataReceivedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                AppendText("[Error] " + e.Data + Environment.NewLine);
+            }
+        }
+
+        private void AppendText(string text)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action<string>(AppendText), text);
+                return;
+            }
+            consoleRichTextBox.AppendText(text);
+            consoleRichTextBox.SelectionStart = consoleRichTextBox.Text.Length;
+            consoleRichTextBox.ScrollToCaret();
+        }
+
+        private void SendCommand(string command)
+        {
+            if (process != null && !process.HasExited)
+            {
+                process.StandardInput.WriteLine(command);
+            }
+        }
+        private void CloseCommandPrompt()
+        {
+            if (process != null && !process.HasExited)
+            {
+                process.Kill();
+            }
+        }
     }
- }
+}
