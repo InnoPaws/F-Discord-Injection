@@ -22,9 +22,6 @@ This is a simple tool for discord to remove discord injections and prevent malwa
 - Enable ResetMyPC - Enables Reset My PC
 - Enable Defender - Enables Windows Defender again
 - Host Repair - Repairs Your host file just in case malware has sites blocked on it
-
-# Coming Soon
-- [X] Copy Infected JS - I will Teach you how to deobfuscate it if its obfuscated
  
 # Analyze Report
 
